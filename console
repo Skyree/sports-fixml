@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+require_once './vendor/autoload.php';
+
+use Skyree\SportsFixml\Enumerator\Strategy;
+use Skyree\SportsFixml\Fixer;
+use Skyree\SportsFixml\Parser\ParserFactory;
+
+$directory = $argv[1] ?? null;
+$strategy = $argv[2] ?? Strategy::LEFT;
+
+if (is_null($directory)) {
+    fwrite(STDERR, 'A directory is mandatory' . PHP_EOL);
+    exit(1);
+}
+
+try {
+    $parserFactory = new ParserFactory();
+    $fixer = new Fixer($parserFactory, $strategy);
+    $report = $fixer->fix($directory);
+
+    foreach ($report['success'] as $fileName => $removedNodes) {
+        fwrite(STDOUT, sprintf(' * %s : Removed %d duplicate waypoints', $fileName, $removedNodes) . PHP_EOL);
+    }
+    foreach ($report['error'] as $fileName => $errorMessage) {
+        fwrite(STDOUT, sprintf(' * %s : Failed : %s', $fileName, $errorMessage) . PHP_EOL);
+    }
+} catch (\Exception $exception) {
+    fwrite(STDERR, $exception->getMessage() . PHP_EOL);
+}

@@ -1,0 +1,27 @@
+{
+  "name": "skyree/sports-fixml",
+  "description": "Removes duplicate waypoints from tcx or gpx exports to avoid activity time loss when syncing to Strava",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "authors": [
+    {
+      "name": "Skyree",
+      "email": "boulakras.loic@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Skyree\\SportsFixml\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "packagist": false
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "ext-dom": "*"
+  }
+}
